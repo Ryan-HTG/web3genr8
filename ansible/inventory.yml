@@ -1,0 +1,4 @@
+# this is placeholder data to be replaced
+[caching-only-dns]
+10.0.1.1 ansible_user=root ansible_private_key_file=~/.ssh/primary ansible_extra_args='-o StrictHostKeyChecking=no' become=yes
+
