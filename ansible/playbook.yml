@@ -1,0 +1,15 @@
+# This is placeholder data, to be removed
+ - hosts: all
+   become: yes
+   roles:
+    - apt-get
+    - bind
+
+ - hosts: all
+   become: yes
+   tasks:
+    - name: update-only
+      import_role:
+        name: apt-get
+        tasks_from: update.yml
+      when: (action == 'update')
