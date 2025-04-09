@@ -1,0 +1,24 @@
+version: '3.3'
+
+services:
+   {{ website_name }}-db:
+     image: mysql:5.7
+     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+     volumes:
+         - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
+     environment:
+       MYSQL_ROOT_PASSWORD: {{ db_pass }}
+
+   {{ website_name }}-wp:
+     depends_on:
+       - {{ website_name }}-db
+     image: wordpress:latest
+     ports:
+       - "{{ http_port }}:80"
+     #disable_ipv6: 'true'
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: {{ website_name }}_{{ website_name }}-db_1:{{ db_port }}
+       WORDPRESS_DB_USER: {{ db_user }}
+       WORDPRESS_DB_PASSWORD: {{ db_pass }}
+       WORDPRESS_DB_NAME: {{ db_name }}

@@ -1,0 +1,5 @@
+tasks:
+ - name: Template test
+   template:
+     src: templates/01-databases.sql.j2
+     dest: /sites/{{ website_name }}/provision/mysql/init/02-databases.sql

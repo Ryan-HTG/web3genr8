@@ -1,0 +1,4 @@
+- name: Creates directory
+  ansible.builtin.file:
+    path: /sites/{{ website_name }}
+    state: directory
