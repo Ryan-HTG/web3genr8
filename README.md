@@ -1,4 +1,10 @@
+
+
 # web3genr8
+
+
+Purpose: this will prepare a docker host image which allows wordpress + db docker pods to be created 
+
 
 useless notes until otherwise noted:
 yum install centos-release-scl
