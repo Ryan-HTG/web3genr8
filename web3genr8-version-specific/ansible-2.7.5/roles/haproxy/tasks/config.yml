@@ -1,0 +1,6 @@
+# todo
+
+- name: Template a file to /etc/file.conf
+  ansible.builtin.template:
+    src: /mytemplates/haproxy.cfg.j2
+    dest: /apps/haproxy/conf/haproxy.cfg

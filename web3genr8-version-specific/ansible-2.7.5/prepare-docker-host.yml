@@ -1,0 +1,7 @@
+#playbook
+ - hosts: all
+   become: yes
+   roles:
+    - docker
+    - haproxy
+

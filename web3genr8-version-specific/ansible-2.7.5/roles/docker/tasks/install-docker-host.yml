@@ -1,0 +1,35 @@
+#figure OS and install proper Docker
+#we will start with a later version of centos7
+#remember this is to allow ease of use of mom-and-pop colos
+# docker-26.1.4 
+- name: Install Docker 26.1.4 on CentOS 7.9.2009
+  hosts: your_target_group  # Replace with your actual target group or host
+  become: yes
+  tasks:
+    - name: Install required dependencies
+      yum:
+        name:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: present
+
+    - name: Add Docker repository
+      yum_repository:
+        name: docker
+        description: Docker CE Stable Repo
+        baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/
+        gpgcheck: yes
+        enabled: yes
+        gpgkey: https://download.docker.com/linux/centos/gpg
+
+    - name: Install Docker 26.1.4
+      yum:
+        name: "docker-ce-26.1.4"
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
