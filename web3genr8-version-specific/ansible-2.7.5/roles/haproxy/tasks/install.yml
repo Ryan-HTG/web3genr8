@@ -1,13 +1,13 @@
-- name: ensure a list of packages installed
+- name: Install required dependencies for building HAProxy
   yum:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - gcc
-    - openssl-devel
-    - pcre-devel
-    - tar
-    - make
+    name:
+      - gcc
+      - make
+      - wget
+      - pcre-devel
+      - openssl-devel
+      - zlib-devel
+    state: present
 
 - name: Download file and force basic auth
   ansible.builtin.get_url:
@@ -19,4 +19,33 @@
     src: /apps/haproxy.tar.gz
     dest: /apps/haproxy
 
+- name: Compile HAProxy 2.0.7 with custom OpenSSL configuration and PCRE
+  command: make TARGET=linux-glibc USE_PCRE=1 USE_OPENSSL=1 SSL_INC=/usr/local/openssl/include SSL_LIB=/usr/local/openssl/lib
+  args:
+    chdir: /tmp/haproxy-2.0.7
 
+- name: Compile HAProxy 2.0.7 with custom OpenSSL configuration and PCRE
+  command: make TARGET=linux-glibc USE_PCRE=1 USE_OPENSSL=1 SSL_INC=/usr/local/openssl/include SSL_LIB=/usr/local/openssl/lib
+  args:
+    chdir: /tmp/haproxy-2.0.7
+
+- name: Install HAProxy
+  command: make install
+  args:
+    chdir: /tmp/haproxy-2.0.7
+
+- name: Remove HAProxy source code tarball
+  file:
+    path: /tmp/haproxy-2.0.7.tar.gz
+    state: absent
+
+- name: Remove HAProxy source directory
+  file:
+    path: /tmp/haproxy-2.0.7
+    state: absent
+
+- name: Start and enable HAProxy service
+  systemd:
+    name: haproxy
+    enabled: yes
+    state: started
