@@ -1,0 +1,11 @@
+#todo
+tasks:
+ - name: database template
+   template:
+     src: templates/01-databases.sql.j2
+     dest: /sites/{{ website_name }}/docker/provision/mysql/init/01-databases.sql
+
+ - name: docker-compose template
+   template:
+     src: templates/docker-compose.yml.j2
+     dest: /sites/{{ website_name }}/docker-compose.yml

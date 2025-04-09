@@ -1,0 +1,22 @@
+- name: ensure a list of packages installed
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - gcc
+    - openssl-devel
+    - pcre-devel
+    - tar
+    - make
+
+- name: Download file and force basic auth
+  ansible.builtin.get_url:
+    url: http://www.haproxy.org/download/2.0/src/haproxy-2.0.7.tar.gz
+    dest: /apps/haproxy.tar.gz
+
+- name: Extract foo.tgz into /var/lib/foo
+  ansible.builtin.unarchive:
+    src: /apps/haproxy.tar.gz
+    dest: /apps/haproxy
+
+
